@@ -12,9 +12,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      - run: |
+          touch .env
+          echo "${{ secrets.DOCKER_USERNAME }}" > .env
+          
       - name: Login to docker hub
-        run: docker login -u kaddyp2805 p $Nitin20320 
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}  
 
       - name: Build docker image
         run: docker build -t kaddyp2805/cinemabooking .
