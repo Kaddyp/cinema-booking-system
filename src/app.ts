@@ -23,11 +23,14 @@ app.use(rateLimit({
     limit: 100 // limit each IP to 100 requests per windowMs   
 }));
 // Serve static files from the React build directory
-app.use(express.static(path.join(__dirname, '../../client/build')));
-
+//app.use(express.static(path.join(__dirname, '../../client/build')));
+app.use(express.static(path.join(__dirname, 'build')));
 // Handle root route to serve React's index.html
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+// });
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'build/index.html'));
 });
 // only requests to /api/* will be sent to our "router"
 app.use('/api/movies', movieRoutes);

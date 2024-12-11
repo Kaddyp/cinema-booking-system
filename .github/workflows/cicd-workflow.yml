@@ -1,0 +1,36 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to docker hub
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} 
+
+      - name: Build docker image
+        run: docker build -t kaddyp2805/cinemabooking .
+
+      - name: Publish image to docker hub
+        run: docker push kaddyp2805/cinemabooking:latest
+
+  deploy:
+    needs: build
+    runs-on: aws-ec2
+    steps:
+      - name: Pull image from docker hub
+        run: docker pull kaddyp2805/cinemabooking:latest
+
+      - name: Delete old container
+        run: docker rm -f cinema-booking
+
+      - name: Run docker container
+        run: docker run -d -p 5000:5000 --name cinema-booking kaddyp2805/cinemabooking
