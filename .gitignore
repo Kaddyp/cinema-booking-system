@@ -56,10 +56,6 @@ coverage/
 *.out
 *.log
 
-# Build artifacts for Docker (if applicable)
-.dockerignore
-Dockerfile
-
 # TSC output directory (commonly `dist/`)
 dist/
 lib/
