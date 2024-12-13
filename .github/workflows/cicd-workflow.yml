@@ -23,7 +23,7 @@ jobs:
         run: docker build -t kaddyp2805/cinemabooking .
 
       - name: Publish image to docker hub
-        run: docker push kaddyp2805/cinemabooking:latest
+        run: docker pull kaddyp2805/cinemabooking:latest
 
   deploy:
     needs: build
